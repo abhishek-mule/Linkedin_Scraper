@@ -87,14 +87,15 @@ Save everything in JSON and CSV formats
 
 ---
 
-📁 Output Structure
+'''📁 Output Structure
 students_data/
 │
 ├── student_1_data.json
 ├── student_1_profile_pic.jpg
 ├── student_2_data.json
 ├── student_2_profile_pic.jpg
-└── students_data.csv
+└── students_data.csv'''
+
 
 
 ---
@@ -131,3 +132,4 @@ Incomplete data	Reduce MAX_PROFILES or increase delay between actions
 
 This project is provided as-is for educational purposes only.
 The author assumes no responsibility for misuse or policy violations.
+
