@@ -4,7 +4,7 @@ A Python-based automation tool that searches LinkedIn for students from Priyadar
 
 
 
-🧩 Features
+🧩 *Features*
 
 🔍 Automated LinkedIn Search
 Searches for profiles matching:
@@ -19,7 +19,7 @@ Education and experience details
 
 Profile photo (if available)
 
-💾 Data Storage Options
+💾 ****Data Storage Options****
 
 Saves individual profiles as JSON files
 
@@ -89,3 +89,41 @@ students_data/
 ├── student_2_data.json
 ├── student_2_profile_pic.jpg
 └── students_data.csv
+
+
+
+
+
+⚠️ Important Notes
+
+🚫 Legal Disclaimer
+This project is for educational and research use only.
+Scraping LinkedIn content violates their User Agreement
+.
+Use responsibly and at your own risk.
+
+🔒 Data Privacy
+The students_data.csv and JSON files are .gitignore-protected.
+Do not upload or share scraped data publicly.
+
+🐢 Rate Limiting
+Built-in time delays help prevent detection.
+Do not lower these delays — it increases your risk of restriction.
+
+👀 Profile Visibility
+LinkedIn users may see your profile views when you scrape.
+
+
+
+🛠 Troubleshooting
+Issue	Fix
+Login / Captcha issues	Disable headless mode and complete verification manually
+Selectors not found	Update XPaths/CSS selectors if LinkedIn layout changes
+ChromeDriver error	Ensure ChromeDriver matches your Chrome version
+Incomplete data	Reduce MAX_PROFILES or increase delay between actions
+
+
+📜 License
+
+This project is provided as-is for educational purposes only.
+The author assumes no responsibility for misuse or policy violations.
