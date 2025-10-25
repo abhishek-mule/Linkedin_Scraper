@@ -1,0 +1,231 @@
+{% extends "layout.html" %}
+
+{% block title %}LinkedIn Direct Search{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0"><i class="fab fa-linkedin mr-2"></i> LinkedIn Profile Search</h4>
+                </div>
+                <div class="card-body">
+                    <!-- Search Form -->
+                    <form method="POST" action="{{ url_for('search_linkedin') }}" class="mb-4">
+                        <div class="form-group">
+                            <label for="full_name"><strong>Enter Full Name:</strong></label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="full_name" name="full_name" 
+                                       placeholder="e.g., John Smith" required
+                                       value="{{ search_name|default('') }}">
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-search mr-1"></i> Search
+                                    </button>
+                                </div>
+                            </div>
+                            <small class="form-text text-muted">Enter the full name of the person you want to find on LinkedIn</small>
+                        </div>
+                    </form>
+
+                    <!-- Search Status/Results Display -->
+                    {% if search_status == 'not_started' %}
+                    <div class="text-center py-4">
+                        <div class="text-muted">
+                            <i class="fas fa-search fa-3x mb-3"></i>
+                            <p>Enter a name above to search for profiles on LinkedIn</p>
+                        </div>
+                    </div>
+                    
+                    {% elif search_status == 'searching' %}
+                    <div class="text-center py-4">
+                        <div class="spinner-border text-primary mb-3" role="status">
+                            <span class="sr-only">Searching...</span>
+                        </div>
+                        <h5>Searching for "{{ search_name }}" on LinkedIn</h5>
+                        <p class="text-muted">This may take a few minutes. Please wait...</p>
+                        <div class="progress mt-3">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 100%"></div>
+                        </div>
+                        <div class="mt-3">
+                            <small class="text-muted">
+                                <i class="fas fa-info-circle mr-1"></i> 
+                                The search is running in the background. You can check back later for results.
+                            </small>
+                        </div>
+                        <div class="mt-4">
+                            <button id="check_status" class="btn btn-outline-primary">
+                                <i class="fas fa-sync-alt mr-1"></i> Check Status
+                            </button>
+                        </div>
+                    </div>
+                    
+                    {% elif search_status == 'completed' %}
+                    <div class="search-results">
+                        <h5 class="mb-3 text-success">
+                            <i class="fas fa-check-circle mr-1"></i> Search Completed
+                        </h5>
+                        
+                        {% if profiles and profiles|length > 0 %}
+                        <p>Found {{ profiles|length }} profile(s) for "{{ search_name }}":</p>
+                        
+                        <div class="list-group">
+                            {% for profile in profiles %}
+                            <div class="list-group-item">
+                                <div class="d-flex align-items-center">
+                                    {% if profile.image_url %}
+                                    <img src="{{ profile.image_url }}" alt="{{ profile.name }}" class="mr-3 rounded-circle" style="width: 50px; height: 50px; object-fit: cover;">
+                                    {% else %}
+                                    <div class="mr-3 rounded-circle bg-secondary d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                        <i class="fas fa-user text-white"></i>
+                                    </div>
+                                    {% endif %}
+                                    
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1">{{ profile.name }}</h6>
+                                        {% if profile.headline %}
+                                        <p class="mb-1 small">{{ profile.headline }}</p>
+                                        {% endif %}
+                                        {% if profile.location %}
+                                        <small class="text-muted">
+                                            <i class="fas fa-map-marker-alt mr-1"></i> {{ profile.location }}
+                                        </small>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <div class="ml-3">
+                                        {% if profile.linkedin_url %}
+                                        <a href="{{ profile.linkedin_url }}" target="_blank" class="btn btn-sm btn-outline-primary" title="View on LinkedIn">
+                                            <i class="fab fa-linkedin"></i>
+                                        </a>
+                                        {% endif %}
+                                        
+                                        <button class="btn btn-sm btn-success save-profile" 
+                                                data-profile="{{ profile|tojson }}" 
+                                                title="Save to Database">
+                                            <i class="fas fa-save"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        
+                        {% else %}
+                        <div class="alert alert-warning">
+                            <i class="fas fa-exclamation-triangle mr-1"></i>
+                            No profiles found for "{{ search_name }}". Try a different name or spelling.
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    {% elif search_status == 'error' %}
+                    <div class="alert alert-danger">
+                        <h5><i class="fas fa-exclamation-circle mr-1"></i> Error During Search</h5>
+                        <p>{{ error_message }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+                
+                {% if search_status != 'not_started' %}
+                <div class="card-footer">
+                    <a href="{{ url_for('search_linkedin') }}" class="btn btn-outline-secondary">
+                        <i class="fas fa-redo mr-1"></i> New Search
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Save Profile Modal -->
+<div class="modal fade" id="saveProfileModal" tabindex="-1" role="dialog" aria-labelledby="saveProfileModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="saveProfileModalLabel">Save Profile</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="profileForm">
+                    <div class="form-group">
+                        <label for="profileName">Name:</label>
+                        <input type="text" class="form-control" id="profileName" name="name" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="profileRole">Role:</label>
+                        <select class="form-control" id="profileRole" name="role">
+                            <option value="student">Student</option>
+                            <option value="faculty">Faculty</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="profileDepartment">Department:</label>
+                        <select class="form-control" id="profileDepartment" name="department">
+                            <option value="Computer Science Engineering">Computer Science Engineering</option>
+                            <option value="Information Technology">Information Technology</option>
+                            <option value="Electronic & Communication Engineering">Electronic & Communication Engineering</option>
+                            <option value="Electrical & Electronics Engineering">Electrical & Electronics Engineering</option>
+                            <option value="Mechanical Engineering">Mechanical Engineering</option>
+                            <option value="Civil Engineering">Civil Engineering</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="profileGradYear">Graduation Year (optional):</label>
+                        <input type="number" class="form-control" id="profileGradYear" name="graduation_year" min="1990" max="2030">
+                    </div>
+                    <input type="hidden" id="profileData" name="profile_data">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="saveProfileBtn">Save Profile</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+$(document).ready(function() {
+    // Handle save profile button click
+    $('.save-profile').click(function() {
+        const profileData = $(this).data('profile');
+        $('#profileName').val(profileData.name);
+        $('#profileData').val(JSON.stringify(profileData));
+        $('#saveProfileModal').modal('show');
+    });
+    
+    // Handle profile save
+    $('#saveProfileBtn').click(function() {
+        const formData = new FormData(document.getElementById('profileForm'));
+        
+        $.ajax({
+            url: "{{ url_for('save_linkedin_profile') }}",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                $('#saveProfileModal').modal('hide');
+                alert('Profile saved successfully!');
+            },
+            error: function(xhr, status, error) {
+                alert('Error saving profile: ' + error);
+            }
+        });
+    });
+    
+    // Check status button functionality
+    $('#check_status').click(function() {
+        location.reload();
+    });
+});
+</script>
+{% endblock %} 

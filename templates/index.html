@@ -1,0 +1,625 @@
+{% extends "layout.html" %}
+
+{% block title %}LinkedIn Profiles - Priyadarshini Engineering College{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Hero section styling */
+    .hero-section {
+        background: linear-gradient(135deg, #0077B5 0%, #00a0dc 100%);
+        padding: 3rem 0;
+        margin-bottom: 2rem;
+        border-radius: 0.5rem;
+        color: white;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .profile-card {
+        border-radius: 12px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        border: none;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+    
+    .profile-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+    
+    .profile-img-container {
+        position: relative;
+        height: 120px;
+        display: flex;
+        justify-content: center;
+        padding-top: 1.5rem;
+    }
+    
+    .profile-img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 4px solid white;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    
+    .filter-container {
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+    
+    .search-input {
+        border-radius: 25px;
+        padding-left: 20px;
+        height: 45px;
+        font-size: 1rem;
+        border: 1px solid #dee2e6;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
+    }
+    
+    .search-input:focus {
+        border-color: #0077B5;
+        box-shadow: 0 2px 10px rgba(0,119,181,0.2);
+    }
+    
+    .search-input-group {
+        margin-bottom: 1rem;
+    }
+    
+    .search-input-group .input-group-text {
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-right: 0;
+        border-radius: 25px 0 0 25px;
+        color: #6c757d;
+    }
+    
+    .search-input-group .form-control {
+        border-left: 0;
+        border-radius: 0 25px 25px 0;
+    }
+    
+    .search-btn {
+        border-radius: 25px;
+        padding-left: 25px;
+        padding-right: 25px;
+        font-weight: 500;
+        background-color: #0077B5;
+        border-color: #0077B5;
+        transition: all 0.3s ease;
+    }
+    
+    .search-btn:hover {
+        background-color: #005e93;
+        border-color: #005e93;
+        transform: translateY(-2px);
+    }
+    
+    .search-btn:active {
+        transform: translateY(0);
+    }
+    
+    .reset-btn {
+        border-radius: 25px;
+        padding-left: 25px;
+        padding-right: 25px;
+        font-weight: 500;
+        background-color: #f8f9fa;
+        border-color: #dee2e6;
+        color: #495057;
+        transition: all 0.3s ease;
+    }
+    
+    .reset-btn:hover {
+        background-color: #e9ecef;
+        transform: translateY(-2px);
+    }
+    
+    /* Custom badges */
+    .badge.bg-faculty {
+        background-color: #0077B5;
+        color: white;
+    }
+    
+    .badge.bg-student {
+        background-color: #36B37E;
+        color: white;
+    }
+    
+    /* Animation for cards */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .profile-card {
+        animation: fadeIn 0.5s ease forwards;
+        opacity: 0;
+    }
+    
+    .profile-card:nth-child(3n+1) { animation-delay: 0.1s; }
+    .profile-card:nth-child(3n+2) { animation-delay: 0.2s; }
+    .profile-card:nth-child(3n+3) { animation-delay: 0.3s; }
+    
+    .card-footer {
+        background-color: white;
+        border-top: 1px solid rgba(0,0,0,0.05);
+    }
+    
+    .btn-view-profile {
+        background-color: #0077B5;
+        color: white;
+        border-radius: 25px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-view-profile:hover {
+        background-color: #005e93;
+        color: white;
+        transform: translateY(-2px);
+    }
+    
+    .btn-linkedin {
+        background-color: white;
+        color: #0077B5;
+        border: 1px solid #0077B5;
+        border-radius: 25px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-linkedin:hover {
+        background-color: #f0f7fb;
+        color: #005e93;
+        transform: translateY(-2px);
+    }
+    
+    .position-text {
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: #495057;
+    }
+    
+    .profile-card .card-body {
+        padding-top: 0;
+    }
+    
+    .empty-results {
+        text-align: center;
+        padding: 3rem;
+        background-color: #f8f9fa;
+        border-radius: 12px;
+    }
+    
+    .empty-results i {
+        font-size: 3rem;
+        color: #6c757d;
+        margin-bottom: 1rem;
+    }
+    
+    .toggle-advanced-search {
+        cursor: pointer;
+        transition: all 0.3s ease;
+        user-select: none;
+    }
+    
+    .toggle-advanced-search:hover {
+        color: #0077B5;
+    }
+    
+    .toggle-advanced-search i {
+        transition: transform 0.3s ease;
+    }
+    
+    .toggle-advanced-search.expanded i {
+        transform: rotate(180deg);
+    }
+    
+    .advanced-search {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease;
+    }
+    
+    .advanced-search.show {
+        max-height: 500px;
+    }
+    
+    .filter-badge {
+        background-color: #e9ecef;
+        color: #495057;
+        border-radius: 50px;
+        padding: 0.5rem 1rem;
+        margin: 0.25rem;
+        display: inline-block;
+        font-size: 0.85rem;
+    }
+    
+    .filter-badge i {
+        margin-right: 0.25rem;
+    }
+    
+    .filter-badge .close {
+        margin-left: 0.5rem;
+        font-size: 1rem;
+        color: #6c757d;
+        cursor: pointer;
+    }
+    
+    .filter-badge .close:hover {
+        color: #343a40;
+    }
+    
+    .role-filter-btn {
+        border-radius: 50px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    
+    .role-filter-btn:hover {
+        transform: translateY(-2px);
+    }
+    
+    .role-filter-btn.active {
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <!-- Hero section with title -->
+    <div class="hero-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 text-center">
+                    <h1 class="display-4 fw-bold mb-3">
+                        <i class="fas fa-users me-2"></i>LinkedIn Profiles
+                    </h1>
+                    <p class="lead mb-0">Explore LinkedIn profiles of students, faculty, and alumni from Priyadarshini Engineering College.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <!-- Search section -->
+        <div class="filter-container mb-4">
+            <form action="{{ url_for('index') }}" method="get" id="search-form">
+                <!-- Basic search -->
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <div class="input-group search-input-group">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            <input type="text" name="name" class="form-control search-input" 
+                                   placeholder="Search by name..." value="{{ request.args.get('name', '') }}">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group search-input-group">
+                            <span class="input-group-text"><i class="fas fa-building"></i></span>
+                            <input type="text" name="company" class="form-control search-input" 
+                                   placeholder="Company name..." value="{{ request.args.get('company', '') }}">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Toggle advanced search -->
+                <div class="mb-3">
+                    <p class="toggle-advanced-search mb-0" id="toggle-advanced-search">
+                        <i class="fas fa-chevron-down me-2"></i> Advanced Search Options
+                    </p>
+                </div>
+                
+                <!-- Advanced search options -->
+                <div class="advanced-search mb-3" id="advanced-search">
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <div class="input-group search-input-group">
+                                <span class="input-group-text"><i class="fas fa-briefcase"></i></span>
+                                <input type="text" name="position" class="form-control search-input" 
+                                       placeholder="Job position or title..." value="{{ request.args.get('position', '') }}">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group search-input-group">
+                                <span class="input-group-text"><i class="fas fa-graduation-cap"></i></span>
+                                <input type="text" name="education" class="form-control search-input" 
+                                       placeholder="Education or degree..." value="{{ request.args.get('education', '') }}">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="input-group search-input-group">
+                                <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                                <input type="text" name="location" class="form-control search-input" 
+                                       placeholder="Location..." value="{{ request.args.get('location', '') }}">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group search-input-group">
+                                <span class="input-group-text"><i class="fas fa-tools"></i></span>
+                                <input type="text" name="skills" class="form-control search-input" 
+                                       placeholder="Skills..." value="{{ request.args.get('skills', '') }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Role Type Filter -->
+                <div class="mb-3">
+                    <div class="d-flex align-items-center mb-2">
+                        <span class="me-3">Filter by role:</span>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm role-filter-btn {{ 'btn-dark active' if not request.args.get('role_type') else 'btn-outline-dark' }}" data-role-type="">All</button>
+                            <button type="button" class="btn btn-sm role-filter-btn {{ 'btn-success active' if request.args.get('role_type') == 'Student' else 'btn-outline-success' }}" data-role-type="Student">Students</button>
+                            <button type="button" class="btn btn-sm role-filter-btn {{ 'btn-primary active' if request.args.get('role_type') == 'Faculty' else 'btn-outline-primary' }}" data-role-type="Faculty">Faculty</button>
+                        </div>
+                        <input type="hidden" name="role_type" id="role-type-input" value="{{ request.args.get('role_type', '') }}">
+                    </div>
+                </div>
+                
+                <!-- Active filters display -->
+                {% if request.args.get('name') or request.args.get('company') or request.args.get('position') or request.args.get('education') or request.args.get('location') or request.args.get('skills') or request.args.get('role_type') %}
+                    <div class="mb-3">
+                        <div class="d-flex flex-wrap align-items-center">
+                            <span class="me-2">Active filters:</span>
+                            {% if request.args.get('name') %}
+                                <span class="filter-badge">
+                                    <i class="fas fa-user"></i> Name: {{ request.args.get('name') }}
+                                </span>
+                            {% endif %}
+                            
+                            {% if request.args.get('company') %}
+                                <span class="filter-badge">
+                                    <i class="fas fa-building"></i> Company: {{ request.args.get('company') }}
+                                </span>
+                            {% endif %}
+                            
+                            {% if request.args.get('position') %}
+                                <span class="filter-badge">
+                                    <i class="fas fa-briefcase"></i> Position: {{ request.args.get('position') }}
+                                </span>
+                            {% endif %}
+                            
+                            {% if request.args.get('education') %}
+                                <span class="filter-badge">
+                                    <i class="fas fa-graduation-cap"></i> Education: {{ request.args.get('education') }}
+                                </span>
+                            {% endif %}
+                            
+                            {% if request.args.get('location') %}
+                                <span class="filter-badge">
+                                    <i class="fas fa-map-marker-alt"></i> Location: {{ request.args.get('location') }}
+                                </span>
+                            {% endif %}
+                            
+                            {% if request.args.get('skills') %}
+                                <span class="filter-badge">
+                                    <i class="fas fa-tools"></i> Skills: {{ request.args.get('skills') }}
+                                </span>
+                            {% endif %}
+                            
+                            {% if request.args.get('role_type') %}
+                                <span class="filter-badge">
+                                    {% if request.args.get('role_type') == 'Faculty' %}
+                                        <i class="fas fa-chalkboard-teacher"></i>
+                                    {% else %}
+                                        <i class="fas fa-user-graduate"></i>
+                                    {% endif %}
+                                    Role: {{ request.args.get('role_type') }}
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+                
+                <!-- Search buttons -->
+                <div class="d-flex justify-content-end mt-3">
+                    <a href="{{ url_for('index') }}" class="btn reset-btn me-2">
+                        <i class="fas fa-undo me-1"></i> Reset Filters
+                    </a>
+                    <button type="submit" class="btn btn-primary search-btn">
+                        <i class="fas fa-search me-1"></i> Search Profiles
+                    </button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Results stats -->
+        <div class="mb-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2 class="h4 mb-0">
+                    {% if request.args.get('name') or request.args.get('company') or request.args.get('position') or request.args.get('education') or request.args.get('location') or request.args.get('skills') or request.args.get('role_type') %}
+                        <i class="fas fa-search me-2 text-muted"></i>Search Results
+                    {% else %}
+                        <i class="fas fa-users me-2 text-muted"></i>All Profiles
+                    {% endif %}
+                </h2>
+                <span class="badge bg-secondary rounded-pill px-3 py-2">
+                    <i class="fas fa-user-circle me-1"></i> {{ profiles|length }} profiles found
+                </span>
+            </div>
+        </div>
+        
+        <!-- Hidden field for advanced filters state -->
+        <input type="hidden" id="has-advanced-filters" value="{{ 'true' if request.args.get('position') or request.args.get('education') or request.args.get('location') or request.args.get('skills') else 'false' }}">
+        
+        <!-- Profiles grid -->
+        {% if profiles %}
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-5">
+                {% for profile in profiles %}
+                    <div class="col">
+                        <div class="card profile-card h-100">
+                            <div class="profile-img-container">
+                                <img src="{{ profile.image_url }}" alt="{{ profile.name }}" class="profile-img">
+                            </div>
+                            
+                            <div class="card-body text-center">
+                                <h5 class="card-title mb-1">{{ profile.name }}</h5>
+                                
+                                <p class="mb-2">
+                                    {% if profile.role_type == 'Faculty' %}
+                                        <span class="badge bg-faculty px-3 py-2">
+                                            <i class="fas fa-chalkboard-teacher me-1"></i> Faculty
+                                        </span>
+                                    {% else %}
+                                        <span class="badge bg-student px-3 py-2">
+                                            <i class="fas fa-user-graduate me-1"></i> Student
+                                        </span>
+                                    {% endif %}
+                                </p>
+                                
+                                {% if profile.current_position or profile.current_company %}
+                                    <p class="position-text mb-2">
+                                        {% if profile.current_position %}
+                                            <i class="fas fa-briefcase me-1 text-muted"></i>
+                                            {{ profile.current_position }}
+                                        {% endif %}
+                                        
+                                        {% if profile.current_position and profile.current_company %}
+                                            at 
+                                        {% endif %}
+                                        
+                                        {% if profile.current_company %}
+                                            <strong>{{ profile.current_company }}</strong>
+                                        {% endif %}
+                                    </p>
+                                {% endif %}
+                                
+                                {% if profile.current_location %}
+                                    <p class="text-muted small mb-2">
+                                        <i class="fas fa-map-marker-alt me-1"></i> 
+                                        {{ profile.current_location }}
+                                    </p>
+                                {% endif %}
+                                
+                                {% if profile.about %}
+                                    <p class="card-text small text-muted mb-2">
+                                        "{{ profile.about|truncate(80) }}"
+                                    </p>
+                                {% endif %}
+                                
+                                {% if profile.current_education %}
+                                    <p class="card-text small mb-0">
+                                        <i class="fas fa-graduation-cap me-1"></i> 
+                                        {{ profile.current_education }}
+                                    </p>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="card-footer py-3">
+                                <div class="d-grid gap-2">
+                                    <a href="{{ url_for('profile_detail', profile_id=profile.id) }}" class="btn btn-view-profile">
+                                        <i class="fas fa-user me-1"></i> View Profile
+                                    </a>
+                                    {% if profile.url %}
+                                        <a href="{{ profile.url }}" target="_blank" class="btn btn-linkedin">
+                                            <i class="fab fa-linkedin me-1"></i> LinkedIn Profile
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-results">
+                <i class="fas fa-search"></i>
+                <h3>No profiles found</h3>
+                <p class="text-muted">
+                    No profiles match your search criteria. Try adjusting your filters.
+                </p>
+                <a href="{{ url_for('index') }}" class="btn btn-primary mt-3">
+                    <i class="fas fa-undo me-2"></i>View all profiles
+                </a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize tooltips
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+        
+        // Add fade-in effect to cards
+        const cards = document.querySelectorAll('.profile-card');
+        cards.forEach((card, index) => {
+            setTimeout(() => {
+                card.style.opacity = '1';
+            }, 100 * index);
+        });
+        
+        // Advanced search toggle
+        const toggleAdvancedSearch = document.getElementById('toggle-advanced-search');
+        const advancedSearch = document.getElementById('advanced-search');
+        
+        // Check if any advanced search fields have values
+        const hasAdvancedFilters = document.getElementById('has-advanced-filters').value === 'true';
+        
+        if (hasAdvancedFilters) {
+            advancedSearch.classList.add('show');
+            toggleAdvancedSearch.classList.add('expanded');
+        }
+        
+        toggleAdvancedSearch.addEventListener('click', function() {
+            advancedSearch.classList.toggle('show');
+            this.classList.toggle('expanded');
+        });
+        
+        // Role filter buttons
+        const roleFilterButtons = document.querySelectorAll('.role-filter-btn');
+        const roleTypeInput = document.getElementById('role-type-input');
+        
+        roleFilterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all buttons
+                roleFilterButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.classList.contains('btn-dark')) {
+                        btn.classList.remove('btn-dark');
+                        btn.classList.add('btn-outline-dark');
+                    } else if (btn.classList.contains('btn-success')) {
+                        btn.classList.remove('btn-success');
+                        btn.classList.add('btn-outline-success');
+                    } else if (btn.classList.contains('btn-primary')) {
+                        btn.classList.remove('btn-primary');
+                        btn.classList.add('btn-outline-primary');
+                    }
+                });
+                
+                // Add active class to clicked button
+                this.classList.add('active');
+                const roleType = this.getAttribute('data-role-type');
+                
+                if (roleType === '') {
+                    this.classList.remove('btn-outline-dark');
+                    this.classList.add('btn-dark');
+                } else if (roleType === 'Student') {
+                    this.classList.remove('btn-outline-success');
+                    this.classList.add('btn-success');
+                } else if (roleType === 'Faculty') {
+                    this.classList.remove('btn-outline-primary');
+                    this.classList.add('btn-primary');
+                }
+                
+                // Set the role type in the hidden input
+                roleTypeInput.value = roleType;
+            });
+        });
+    });
+</script>
+{% endblock %} 

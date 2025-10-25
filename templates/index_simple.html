@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+{% block title %}LinkedIn Profiles - Priyadarshini Engineering College{% endblock %}
+{% block content %}
+
+<h1>LinkedIn Profiles</h1>
+
+<p>Search and browse LinkedIn profiles of students and alumni from Priyadarshini Engineering College.</p>
+
+<form action="{{ url_for('index') }}" method="get">
+    <input type="text" name="q" value="{{ query|default('') }}">
+    <button type="submit">Search</button>
+</form>
+
+{% if query %}
+<h2>Search Results for "{{ query }}"</h2>
+{% else %}
+<h2>All Profiles</h2>
+{% endif %}
+
+<p>{{ profiles|length }} profiles found</p>
+
+{% if profiles %}
+    {% for profile in profiles %}
+        <div class="profile-item">
+            <img src="{{ profile.image_url }}" alt="{{ profile.name }}">
+            <h3>{{ profile.name }}</h3>
+            
+            {% if profile.current_position or profile.current_company %}
+                <p>
+                    {{ profile.current_position }}
+                    {% if profile.current_position and profile.current_company %}
+                        at 
+                    {% endif %}
+                    {{ profile.current_company }}
+                </p>
+            {% endif %}
+            
+            {% if profile.about %}
+                <p>{{ profile.about }}</p>
+            {% endif %}
+            
+            {% if profile.current_education %}
+                <p>
+                    <i class="fas fa-graduation-cap"></i> 
+                    {{ profile.current_education }}
+                </p>
+            {% endif %}
+            
+            <p>
+                <a href="{{ url_for('profile_detail', profile_id=profile.id) }}">View Profile</a>
+                {% if profile.url %}
+                    | <a href="{{ profile.url }}" target="_blank">LinkedIn Profile</a>
+                {% endif %}
+            </p>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No profiles found {% if query %}matching "{{ query }}"{% endif %}.</p>
+    {% if query %}
+        <p><a href="{{ url_for('index') }}">View all profiles</a></p>
+    {% endif %}
+{% endif %}
+{% endblock %} 
