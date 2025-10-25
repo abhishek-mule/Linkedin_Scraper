@@ -48,23 +48,26 @@ PASSWORD = "your_linkedin_password"
 </pre>
 ---
 
+
 # --- OPTIONAL CONFIGURATION ---
-
-
 SEARCH_KEYWORD = "IIT Bombay, Mumbai"
 OUTPUT_FOLDER = "students_data"
 CSV_FILE = "students_data.csv"
-MAX_PROFILES = 50  # Maximum number of profiles to scrape
+MAX_PROFILES = 50 # Maximum number of profiles to scrape
+
+---
+
+### 4. Chrome & WebDriver Setup
+This tool uses Chrome. The required ChromeDriver dependency is **automatically managed** if you have Google Chrome installed, thanks to `webdriver_manager`.
+
+---
+
+## ▶️ Usage
+
+Simply run the main Python script from your terminal:
 
 
-
-4. Chrome & WebDriver SetupThis tool uses Chrome. The required ChromeDriver dependency is automatically managed if you have Google Chrome installed, thanks to webdriver_manager.
-▶️ UsageSimply run the main Python script from your terminal:Bashpython linkedin_college_scraper.py
-
-
-The script will perform the following steps automatically:Log in to LinkedIn using your configured credentials.Search for profiles based on the SEARCH_KEYWORD.Collect profile URLs and visit each one.
-Extract data, download images, and save the output.
-📁 Output 
+python linkedin_college_scraper.py
 
 
 
@@ -87,6 +90,7 @@ StructureAll extracted data will be neatly organized within the students_data/ f
 
 *
 ****AuthorAbhishek Mule💼 Developer | 💡 Innovator📧 your_email@example.com*****
+
 
 
 
