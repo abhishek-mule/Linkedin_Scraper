@@ -1,4 +1,4 @@
-````markdow
+
 # 🚀 LinkedIn College Student Scraper
 
 [![GitHub license](https://img.shields.io/badge/License-Educational-blue.svg)](LICENSE)
@@ -139,4 +139,5 @@ This project is provided **as-is** for educational purposes only.
 
 ```
 ```
+
 
