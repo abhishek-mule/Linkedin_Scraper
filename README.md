@@ -41,12 +41,13 @@ cd Linkedin_Scraper
 
 
 3. Configure CredentialsYou must open linkedin_college_scraper.py and replace the placeholder values with your own LinkedIn credentials.Python
-   # --- REQUIRED CONFIGURATION ---
- <pre>
+
+
+
+
+# --- REQUIRED CONFIGURATION ---
 EMAIL = "your_linkedin_email@example.com"
 PASSWORD = "your_linkedin_password"
-</pre>
----
 
 
 # --- OPTIONAL CONFIGURATION ---
@@ -54,6 +55,8 @@ SEARCH_KEYWORD = "IIT Bombay, Mumbai"
 OUTPUT_FOLDER = "students_data"
 CSV_FILE = "students_data.csv"
 MAX_PROFILES = 50 # Maximum number of profiles to scrape
+
+
 
 ---
 
@@ -90,6 +93,7 @@ StructureAll extracted data will be neatly organized within the students_data/ f
 
 *
 ****AuthorAbhishek Mule💼 Developer | 💡 Innovator📧 your_email@example.com*****
+
 
 
 
