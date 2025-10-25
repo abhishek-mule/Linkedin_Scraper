@@ -2,13 +2,15 @@
 
 A Python-based automation tool that searches LinkedIn for students from Priyadarshini Engineering College, Hingna Road and extracts detailed profile information — including education, experience, and profile photos — for educational or research purposes.
 
+---
 
-
-🧩 *Features*
+🧩 Features
 
 🔍 Automated LinkedIn Search
 Searches for profiles matching:
 "Priyadarshini Engineering College, Hingna Road"
+
+---
 
 📋 Comprehensive Profile Extraction
 Extracts structured data including:
@@ -18,12 +20,14 @@ Name, headline, and “About” section
 Education and experience details
 
 Profile photo (if available)
+---
 
-💾 ****Data Storage Options****
+💾 Data Storage Options
 
 Saves individual profiles as JSON files
 
 Generates a summary CSV containing all basic info
+---
 
 
 ⚙️ Setup Instructions
@@ -56,7 +60,7 @@ Install Google Chrome
 Ensure ChromeDriver matches your Chrome version
 (automatically managed if you use webdriver_manager)
 
-
+---
 
 ▶️ Usage
 
@@ -81,6 +85,8 @@ Save everything in JSON and CSV formats
 
 
 
+---
+
 📁 Output Structure
 students_data/
 │
@@ -91,9 +97,7 @@ students_data/
 └── students_data.csv
 
 
-
-
-
+---
 ⚠️ Important Notes
 
 🚫 Legal Disclaimer
@@ -115,14 +119,14 @@ LinkedIn users may see your profile views when you scrape.
 
 
 
+---
+
 🛠 Troubleshooting
 Issue	Fix
 Login / Captcha issues	Disable headless mode and complete verification manually
 Selectors not found	Update XPaths/CSS selectors if LinkedIn layout changes
 ChromeDriver error	Ensure ChromeDriver matches your Chrome version
 Incomplete data	Reduce MAX_PROFILES or increase delay between actions
-
-
 📜 License
 
 This project is provided as-is for educational purposes only.
