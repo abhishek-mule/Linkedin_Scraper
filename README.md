@@ -35,6 +35,7 @@ cd Linkedin_Scraper
 3. Configure CredentialsYou must open linkedin_college_scraper.py and replace the placeholder values with your own LinkedIn credentials.Python# --- REQUIRED CONFIGURATION ---
 EMAIL = "your_linkedin_email@example.com"
 PASSWORD = "your_linkedin_password"
+---
 
 # --- OPTIONAL CONFIGURATION ---
 SEARCH_KEYWORD = "Priyadarshini Engineering College, Hingna Road"
@@ -51,3 +52,4 @@ The script will perform the following steps automatically:Log in to LinkedIn usi
 └── students_data.csv            # Summary CSV of all scraped profiles
 
 🛑 Important Notes & Disclaimer⚠️ Legal Disclaimer - Use at Your Own RiskThis project is created strictly for educational and research purposes.Scraping LinkedIn content violates their User Agreement. The author assumes no responsibility for any misuse, policy violations, or account restrictions that may occur from using this tool. Use responsibly and at your own risk.🔒 Data PrivacyThe output files (.csv and .json) are .gitignore protected. DO NOT upload or share any scraped data publicly.LinkedIn users may see your profile view when the scraper visits their page.🐢 Rate LimitingThe built-in time delays are essential for preventing detection. Do not lower these delays—it significantly increases your risk of being restricted or banned by LinkedIn.🛠 TroubleshootingIssuePotential FixLogin / Captcha issuesDisable headless mode in the script and manually complete the verification or login.Selectors not foundLinkedIn's layout changes. You may need to update XPaths/CSS selectors in the script.ChromeDriver errorEnsure Google Chrome is installed and that your webdriver-manager package is up-to-date.Incomplete dataTry increasing the delay between actions or reducing the MAX_PROFILES limit.🧾 LicenseThis project is provided as-is for educational purposes only.✨ AuthorAbhishek Mule💼 Developer | 💡 Innovator📧 your_email@example.com
+
