@@ -1,8 +1,5 @@
 
-
------
-
-## 💾 Raw Markdown File (A to Z)
+## The Enhanced `README.md`
 
 ````markdown
 # 🚀 LinkedIn College Student Scraper
@@ -15,7 +12,7 @@
 
 ## 🎯 Project Overview
 
-A **Python-based automation tool** designed to search LinkedIn for students from a specific institution. It extracts detailed profile information for educational or research purposes, saving the data locally in secure formats.
+A **Python-based automation tool** designed to search LinkedIn for students from a specific institution (initially configured for **Priyadarshini Engineering College, Hingna Road**). It extracts detailed profile information for educational or research purposes, saving the data locally in secure formats.
 
 ---
 
@@ -23,7 +20,7 @@ A **Python-based automation tool** designed to search LinkedIn for students from
 
 | Icon | Feature | Description |
 | :--- | :--- | :--- |
-| 🔍 | **Automated LinkedIn Search** | Searches for student profiles matching the `SEARCH_KEYWORD`. |
+| 🔍 | **Automated LinkedIn Search** | Searches for student profiles matching the `SEARCH_KEYWORD` (e.g., 'IIT Bombay' as per your original note). |
 | 📋 | **Comprehensive Extraction** | Pulls structured data: Name, Headline, "About" section, Education, Experience, and Profile Photos. |
 | 💾 | **Flexible Data Storage** | Saves individual profiles as **JSON files** and generates a **summary CSV** for bulk analysis. |
 | 🛡️ | **Rate Limit Protection** | Includes built-in time delays to minimize the risk of detection and restrictions. |
@@ -57,15 +54,12 @@ You **must** open `linkedin_college_scraper.py` and replace the placeholder valu
 EMAIL = "your_linkedin_email@example.com"
 PASSWORD = "your_linkedin_password"
 
-
 # --- OPTIONAL CONFIGURATION ---
-SEARCH_KEYWORD = "IIT Bombay, Mumbai"
+SEARCH_KEYWORD = "Priyadarshini Engineering College, Hingna Road"
 OUTPUT_FOLDER = "students_data"
 CSV_FILE = "students_data.csv"
-MAX_PROFILES = 50 # Maximum number of profiles to scrape
+MAX_PROFILES = 50  # Maximum number of profiles to scrape
 ```
-
------
 
 ### 4\. Chrome & WebDriver Setup
 
@@ -139,8 +133,6 @@ The built-in time delays are essential for preventing detection. **Do not lower 
 ## 🧾 License
 
 This project is provided **as-is** for educational purposes only.
-
------
 
 ## ✨ Author
 
