@@ -1,4 +1,4 @@
-<img width="1292" height="435" alt="image" src="https://github.com/user-attachments/assets/9761ce49-3e63-4cc7-b29c-d42666074645" /># 🚀 LinkedIn College Student Scraper
+# 🚀 LinkedIn College Student Scraper
 
 [![GitHub license](https://img.shields.io/badge/License-Educational-blue.svg)](LICENSE)
 [![Python Version](https://img.shields.io/badge/Python-3.x-informational.svg)](https://www.python.org/)
@@ -87,6 +87,7 @@ StructureAll extracted data will be neatly organized within the students_data/ f
 
 *
 ****AuthorAbhishek Mule💼 Developer | 💡 Innovator📧 your_email@example.com*****
+
 
 
 
