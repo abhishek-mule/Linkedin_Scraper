@@ -1,39 +1,34 @@
-🚀 LinkedIn College Student Scraper
+# 🚀 LinkedIn College Student Scraper
 
-A Python-based automation tool that searches LinkedIn for students from Priyadarshini Engineering College, Hingna Road and extracts detailed profile information — including education, experience, and profile photos — for educational or research purposes.
-
----
-
-🧩 Features
-
-🔍 Automated LinkedIn Search
-Searches for profiles matching:
-"Priyadarshini Engineering College, Hingna Road"
+A Python-based automation tool that searches LinkedIn for **students from Priyadarshini Engineering College, Hingna Road** and extracts detailed profile information — including education, experience, and profile photos — for educational or research purposes.
 
 ---
 
-📋 Comprehensive Profile Extraction
-Extracts structured data including:
+## 🧩 Features
 
-Name, headline, and “About” section
+- 🔍 **Automated LinkedIn Search**  
+  Searches for profiles matching:  
+  `"Priyadarshini Engineering College, Hingna Road"`
 
-Education and experience details
+- 📋 **Comprehensive Profile Extraction**  
+  Extracts structured data including:
+  - Name, headline, and “About” section  
+  - Education and experience details  
+  - Profile photo (if available)
 
-Profile photo (if available)
+- 💾 **Data Storage Options**  
+  - Saves individual profiles as **JSON files**  
+  - Generates a **summary CSV** containing all basic info
+
 ---
 
-💾 Data Storage Options
+## ⚙️ Setup Instructions
 
-Saves individual profiles as JSON files
-
-Generates a summary CSV containing all basic info
----
-
-
-⚙️ Setup Instructions
-1. Clone the Repository
+### 1. Clone the Repository
+```bash
 git clone https://github.com/abhishek-mule/Linkedin_Scraper.git
 cd Linkedin_Scraper
+
 
 2. Install Dependencies
 pip install -r requirements.txt
@@ -60,8 +55,6 @@ Install Google Chrome
 Ensure ChromeDriver matches your Chrome version
 (automatically managed if you use webdriver_manager)
 
----
-
 ▶️ Usage
 
 Run the script:
@@ -83,23 +76,15 @@ Download profile images
 
 Save everything in JSON and CSV formats
 
-
-
----
-
-<pre>
+📁 Output Structure
 students_data/
 │
 ├── student_1_data.json
 ├── student_1_profile_pic.jpg
 ├── student_2_data.json
+├── student_2_profile_pic.jpg
 └── students_data.csv
-</pre>
 
-
-
-
----
 ⚠️ Important Notes
 
 🚫 Legal Disclaimer
@@ -119,19 +104,19 @@ Do not lower these delays — it increases your risk of restriction.
 👀 Profile Visibility
 LinkedIn users may see your profile views when you scrape.
 
-
-
----
-
 🛠 Troubleshooting
 Issue	Fix
 Login / Captcha issues	Disable headless mode and complete verification manually
 Selectors not found	Update XPaths/CSS selectors if LinkedIn layout changes
 ChromeDriver error	Ensure ChromeDriver matches your Chrome version
 Incomplete data	Reduce MAX_PROFILES or increase delay between actions
-📜 License
+🧾 License
 
 This project is provided as-is for educational purposes only.
 The author assumes no responsibility for misuse or policy violations.
 
+✨ Author
 
+Abhishek Mule
+💼 Developer | 💡 Innovator | 🧠 Builder of Ideas
+📧 your_email@example.com
